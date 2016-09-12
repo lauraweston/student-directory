@@ -48,7 +48,9 @@ end
 def print_students(students)
   print_header
   students.each_with_index do |student, i|
-    puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    if student[:name].length < 12
+      puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
