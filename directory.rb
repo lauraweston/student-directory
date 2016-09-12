@@ -24,14 +24,14 @@ def input_students
   # Create an empty array
   students = []
   # Get the first name
-  name = gets.chomp
+  name = gets.capitalize.chomp
   # While the name is not empty, repeat this code
   while !name.empty? do
     # Add the student hash to the array
     students << {name: name, cohort: :november}
     puts "#{students.count} new students have been enrolled"
     # Get another name from the user
-    name = gets.chomp
+    name = gets.capitalize.chomp
   end
   # return the array of students
   students
