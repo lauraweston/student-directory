@@ -1,25 +1,21 @@
 def ask_for_action
   puts "What would you like to do?"
   action = ""
-  while action
+  student_list = []
+  until action == "x"
+    puts "\nEnter A to Add students, S to Search students or X to exit."
+    action = gets.downcase.chomp
     case action
       when "a"
-        students = input_students
-        print_header
-        print(students)
-        print_footer(students)
-        action = ""
+        student_list += input_students
+        print_students(student_list)
+        print_footer(student_list)
       when "s"
-        # Call select students method
-      when "x"
-        puts "Goodbye!"
-        exit
-      else
-        puts "Enter A to Add students, S to Search students or X to exit."
-        action = gets.downcase.chomp
+        filtered_student_list = search(student_list)
+        print_students(filtered_student_list)
     end
   end
-
+  puts "Goodbye!"
 end
 
 def input_students
@@ -33,7 +29,7 @@ def input_students
   while !name.empty? do
     # Add the student hash to the array
     students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
+    puts "#{students.count} new students have been enrolled"
     # Get another name from the user
     name = gets.chomp
   end
@@ -41,8 +37,19 @@ def input_students
   students
 end
 
-def select_students_starting
+def search(students)
+  puts "To search for students, enter the first letter or first few letters of the name and press Enter."
+  search_term = gets.downcase.chomp
+  students.select do |student|
+    student[:name].downcase.start_with?(search_term)
+  end
+end
 
+def print_students(students)
+  print_header
+  students.each_with_index do |student, i|
+    puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  end
 end
 
 def print_header
@@ -50,14 +57,9 @@ def print_header
   puts "------------"
 end
 
-def print(students)
-  students.each_with_index do |student, i|
-    puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
-  end
-end
-
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  puts "------------"
+  puts "Altogether, we have #{names.count} great students"
 end
 
 ask_for_action
