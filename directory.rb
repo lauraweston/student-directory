@@ -1,19 +1,23 @@
 def ask_for_action
   puts "What would you like to do?"
   action = ""
-  while action != "a" && action != "s"
-    puts "Enter A to Add students or S to Search students"
-    action = gets.downcase.chomp
-  end
-
-  if action == "a"
-    students = input_students
-    print_header
-    print(students)
-    print_footer(students)
-  elsif action == "s"
-  # call select students method
-  
+  while action
+    case action
+      when "a"
+        students = input_students
+        print_header
+        print(students)
+        print_footer(students)
+        action = ""
+      when "s"
+        # Call select students method
+      when "x"
+        puts "Goodbye!"
+        exit
+      else
+        puts "Enter A to Add students, S to Search students or X to exit."
+        action = gets.downcase.chomp
+    end
   end
 
 end
@@ -35,6 +39,10 @@ def input_students
   end
   # return the array of students
   students
+end
+
+def select_students_starting
+
 end
 
 def print_header
