@@ -1,3 +1,23 @@
+def ask_for_action
+  puts "What would you like to do?"
+  action = ""
+  while action != "a" && action != "s"
+    puts "Enter A to Add students or S to Search students"
+    action = gets.downcase.chomp
+  end
+
+  if action == "a"
+    students = input_students
+    print_header
+    print(students)
+    print_footer(students)
+  elsif action == "s"
+  # call select students method
+  
+  end
+
+end
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -32,7 +52,4 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+ask_for_action
