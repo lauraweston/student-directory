@@ -31,7 +31,7 @@ def input_students
     print "Age: "
     age = gets.downcase.chomp
     print "Nationality: "
-    nationality = gets.downcase.chomp
+    nationality = gets.capitalize.chomp
     print "Hobbies: "
     hobbies = gets.downcase.chomp
 
@@ -57,19 +57,26 @@ def print_students(students)
   while i < students.length
     student = students[i]
     if student[:name].length < 12
-      puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      number = (i + 1).to_s
+      name = student[:name]
+      cohort = student[:cohort].to_s
+      nationality = student[:nationality]
+      age = student[:age].to_s
+      hobbies = student[:hobbies]
+      puts "#{number.rjust(4)} #{name.ljust(20)}#{cohort.ljust(20)}#{nationality.ljust(20)}#{age.ljust(10)}#{hobbies.ljust(25)}"
     end
     i += 1
   end
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "------------"
+  puts "Students of Villains Academy\n".upcase.center(100)
+  puts "     Name".ljust(25) + "Cohort".ljust(20) + "Nationality".ljust(20) + "Age".ljust(10) + "Hobbies".ljust(25)
+  puts ("-" * 100)
 end
 
 def print_footer(names)
-  puts "------------"
+  puts ("-" * 100)
   puts "Altogether, we have #{names.count} great students"
 end
 
