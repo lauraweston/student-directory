@@ -11,8 +11,7 @@ def ask_for_action
         print_students(student_list)
         print_footer(student_list)
       when "s"
-        filtered_student_list = search(student_list)
-        print_students(filtered_student_list)
+        search(student_list)
     end
   end
   puts "Goodbye!"
@@ -51,9 +50,10 @@ end
 def search(students)
   puts "To search for students, enter the first letter or first few letters of the name and press Enter."
   search_term = gets.downcase.chomp
-  students.select do |student|
+  filtered_student_list = students.select do |student|
     student[:name].downcase.start_with?(search_term)
   end
+  print_students(filtered_student_list)
 end
 
 def print_students(students)
