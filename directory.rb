@@ -21,9 +21,13 @@ def input_students
   puts "To return to the menu, just hit return twice\n"
   students = []
   name = get_user_input("Please enter the name of a student").capitalize
+  cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
   while !name.empty? do
-    cohort = get_user_input("Cohort", get_current_month).downcase.to_sym
+    cohort = nil
+    until cohorts.include?(cohort)
+      cohort = get_user_input("Cohort", get_current_month).downcase.to_sym
+    end
     nationality = get_user_input("Nationality", "Unknown").capitalize
     age = get_user_input("Age", "Unknown")
     hobbies = get_user_input("Hobbies", "Unknown")
