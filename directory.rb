@@ -21,26 +21,31 @@ end
 def input_students
   puts "To return to the menu, just hit return twice\n"
   students = []
-
-  puts "Please enter the name of a student:"
-  name = gets.capitalize.chomp
+  name = get_user_input("Please enter the name of a student").capitalize
 
   while !name.empty? do
-    print "Cohort: "
-    cohort = gets.downcase.chomp.to_sym
-    print "Age: "
-    age = gets.downcase.chomp
-    print "Nationality: "
-    nationality = gets.capitalize.chomp
-    print "Hobbies: "
-    hobbies = gets.downcase.chomp
+    cohort = get_user_input("Cohort", get_current_month).downcase.to_sym
+    nationality = get_user_input("Nationality", "Unknown").capitalize
+    age = get_user_input("Age", "Unknown")
+    hobbies = get_user_input("Hobbies", "Unknown")
 
-    students << {name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies}
+    students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
+
     puts "#{students.count} new students have been enrolled"
-    puts "Please enter the name of a student"
-    name = gets.capitalize.chomp
+    name = get_user_input("Please enter the name of a student").capitalize
   end
   students
+end
+
+def get_user_input(prompt, default="")
+  print prompt + ": "
+  input = gets.chomp
+  return default if input.empty?
+  input
+end
+
+def get_current_month
+  Time.now.strftime("%B")
 end
 
 def search(students)
