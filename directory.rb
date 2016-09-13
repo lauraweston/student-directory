@@ -64,7 +64,7 @@ def print_students(students)
     if student[:name].length < 12
       number = (i + 1).to_s
       name = student[:name]
-      cohort = student[:cohort].to_s
+      cohort = student[:cohort].to_s.capitalize
       nationality = student[:nationality]
       age = student[:age].to_s
       hobbies = student[:hobbies]
