@@ -19,21 +19,27 @@ def ask_for_action
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # Create an empty array
+  puts "To return to the menu, just hit return twice\n"
   students = []
-  # Get the first name
+
+  puts "Please enter the name of a student:"
   name = gets.capitalize.chomp
-  # While the name is not empty, repeat this code
+
   while !name.empty? do
-    # Add the student hash to the array
-    students << {name: name, cohort: :november}
+    print "Cohort: "
+    cohort = gets.downcase.chomp.to_sym
+    print "Age: "
+    age = gets.downcase.chomp
+    print "Nationality: "
+    nationality = gets.downcase.chomp
+    print "Hobbies: "
+    hobbies = gets.downcase.chomp
+
+    students << {name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies}
     puts "#{students.count} new students have been enrolled"
-    # Get another name from the user
+    puts "Please enter the name of a student"
     name = gets.capitalize.chomp
   end
-  # return the array of students
   students
 end
 
