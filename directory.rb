@@ -10,10 +10,18 @@ def ask_for_action
     case action
       when "a"
         student_list += input_students
-        print_students(student_list)
-        print_footer(student_list)
+        if !student_list.empty?
+          print_students(student_list)
+          print_footer(student_list)
+        else
+          puts "We have no students"
+        end
       when "s"
-        search(student_list)
+        if !student_list.empty?
+          search(student_list)
+        else
+          puts "We have no students"
+        end
     end
   end
   puts "Goodbye!"
@@ -59,9 +67,13 @@ def search(students)
   filtered_student_list = students.select do |student|
     student[:name].downcase.start_with?(search_term)
   end
-  print_students(filtered_student_list)
-  puts ("-" * 100)
-  puts "#{filtered_student_list.count} #{pluralize(filtered_student_list.count, "student")} found"
+  if filtered_student_list.empty?
+    puts "No matching students found"
+  else
+    print_students(filtered_student_list)
+    puts ("-" * 100)
+    puts "#{filtered_student_list.count} #{pluralize(filtered_student_list.count, "student")} found"
+  end
 end
 
 def print_students(students)
