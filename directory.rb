@@ -61,19 +61,18 @@ def search(students)
 end
 
 def print_students(students)
+  names_less_than_12 = students.select { |student| student[:name].length < 12 }
   print_header
   i = 0
-  while i < students.length
-    student = students[i]
-    if student[:name].length < 12
-      number = (i + 1).to_s
-      name = student[:name]
-      cohort = student[:cohort].to_s.capitalize
-      nationality = student[:nationality]
-      age = student[:age].to_s
-      hobbies = student[:hobbies]
-      puts "#{number.rjust(4)} #{name.ljust(20)}#{cohort.ljust(20)}#{nationality.ljust(20)}#{age.ljust(10)}#{hobbies.ljust(25)}"
-    end
+  while i < names_less_than_12.length
+    student = names_less_than_12[i]
+    number = (i + 1).to_s.rjust(4)
+    name = student[:name].ljust(20)
+    cohort = student[:cohort].to_s.capitalize.ljust(20)
+    nationality = student[:nationality].ljust(20)
+    age = student[:age].to_s.ljust(10)
+    hobbies = student[:hobbies].ljust(25)
+    puts number + " " + name + cohort + nationality + age + hobbies
     i += 1
   end
 end
