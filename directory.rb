@@ -5,11 +5,12 @@ def interactive_menu
   action = ""
   student_list = []
   until action == "x"
-    puts "\nEnter A to Add students, S to Search students or X to exit."
+    puts "\nEnter A to Add students, L to List students, S to Search students or X to exit."
     action = gets.strip.downcase
     case action
       when "a"
         student_list += input_students
+      when "l"
         if !student_list.empty?
           print_students(student_list)
           print_footer(student_list)
