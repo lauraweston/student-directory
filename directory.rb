@@ -1,6 +1,6 @@
 require "date"
 
-def ask_for_action
+def interactive_menu
   puts "What would you like to do?"
   action = ""
   student_list = []
@@ -120,4 +120,4 @@ def print_footer(names)
   puts "Altogether, we have #{number} great #{pluralize(number, "student")}"
 end
 
-ask_for_action
+interactive_menu
