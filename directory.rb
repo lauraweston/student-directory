@@ -36,7 +36,7 @@ def input_students
 
     students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
 
-    puts "#{students.count} new students have been enrolled"
+    puts "#{students.count} new #{pluralize(students.count, "student")} enrolled"
     name = get_user_input("Please enter the name of a student").capitalize
   end
   students
@@ -90,6 +90,10 @@ def sort_by_cohort(students)
     end
 end
 
+def pluralize(num, word)
+  num == 1 ? word : word + "s"
+end
+
 def print_header
   puts "Students of Villains Academy\n".upcase.center(100)
   puts "     Name".ljust(25) + "Cohort".ljust(20) + "Nationality".ljust(20) + "Age".ljust(10) + "Hobbies".ljust(25)
@@ -98,7 +102,8 @@ end
 
 def print_footer(names)
   puts ("-" * 100)
-  puts "Altogether, we have #{names.count} great students"
+  number = names.count
+  puts "Altogether, we have #{number} great #{pluralize(number, "student")}"
 end
 
 ask_for_action
