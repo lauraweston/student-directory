@@ -6,7 +6,7 @@ def ask_for_action
   student_list = []
   until action == "x"
     puts "\nEnter A to Add students, S to Search students or X to exit."
-    action = gets.downcase.chomp
+    action = gets.strip.downcase
     case action
       when "a"
         student_list += input_students
@@ -44,7 +44,7 @@ end
 
 def get_user_input(prompt, default="")
   print prompt + ": "
-  input = gets.chomp
+  input = gets.strip
   return default if input.empty?
   input
 end
@@ -55,7 +55,7 @@ end
 
 def search(students)
   puts "To search for students, enter the first letter or first few letters of the name and press Enter."
-  search_term = gets.downcase.chomp
+  search_term = gets.strip.downcase
   filtered_student_list = students.select do |student|
     student[:name].downcase.start_with?(search_term)
   end
