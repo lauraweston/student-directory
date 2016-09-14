@@ -60,6 +60,8 @@ def search(students)
     student[:name].downcase.start_with?(search_term)
   end
   print_students(filtered_student_list)
+  puts ("-" * 100)
+  puts "#{filtered_student_list.count} #{pluralize(filtered_student_list.count, "student")} found"
 end
 
 def print_students(students)
