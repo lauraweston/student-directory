@@ -1,3 +1,5 @@
+require "date"
+
 def ask_for_action
   puts "What would you like to do?"
   action = ""
@@ -61,11 +63,12 @@ def search(students)
 end
 
 def print_students(students)
-  names_less_than_12 = students.select { |student| student[:name].length < 12 }
+  names_less_than_12 = select_names_less_than_12(students)
+  sorted_by_cohort = sort_by_cohort(names_less_than_12)
   print_header
   i = 0
-  while i < names_less_than_12.length
-    student = names_less_than_12[i]
+  while i < sorted_by_cohort.length
+    student = sorted_by_cohort[i]
     number = (i + 1).to_s.rjust(4)
     name = student[:name].ljust(20)
     cohort = student[:cohort].to_s.capitalize.ljust(20)
@@ -75,6 +78,16 @@ def print_students(students)
     puts number + " " + name + cohort + nationality + age + hobbies
     i += 1
   end
+end
+
+def select_names_less_than_12(students)
+  students.select { |student| student[:name].length < 12 }
+end
+
+def sort_by_cohort(students)
+    students.sort do |a, b|
+      Date::MONTHNAMES.index(a[:cohort].to_s.capitalize) <=> Date::MONTHNAMES.index(b[:cohort].to_s.capitalize)
+    end
 end
 
 def print_header
