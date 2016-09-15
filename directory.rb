@@ -1,31 +1,39 @@
 require "date"
 
 def interactive_menu
-  puts "What would you like to do?"
   action = ""
   student_list = []
-  until action == "x"
-    puts "\nEnter A to Add students, L to List students, S to Search students or X to exit."
+  until action == "9"
+    print_menu
     action = gets.strip.downcase
     case action
-      when "a"
+    when "1"
         student_list += input_students
-      when "l"
-        if !student_list.empty?
+    when "2"
+      if !student_list.empty?
           print_students(student_list)
           print_footer(student_list)
-        else
+      else
           puts "We have no students"
-        end
-      when "s"
-        if !student_list.empty?
+      end
+    when "3"
+      if !student_list.empty?
           search(student_list)
-        else
+      else
           puts "We have no students"
-        end
+      end
     end
   end
   puts "Goodbye!"
+end
+
+def print_menu
+  puts "What would you like to do?"
+  puts "Enter a number to make your selection"
+  puts "1. Input students"
+  puts "2. Show students"
+  puts "3. Search for students"
+  puts "9. Exit"
 end
 
 def input_students
