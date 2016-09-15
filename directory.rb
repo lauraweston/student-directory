@@ -1,6 +1,8 @@
 require "date"
 @students = []
 
+
+
 def interactive_menu
   action = ""
   until action == "9"
@@ -17,7 +19,8 @@ def print_menu
   puts "1. Input students"
   puts "2. Show students"
   puts "3. Search for students"
-  puts "4. Save students to students.csv"
+  puts "4. Save student list to students.csv"
+  puts "5. Load student list from students.csv"
   puts "9. Exit"
 end
 
@@ -133,6 +136,16 @@ def save_students
   puts "#{pluralize(@students.count, "student")} saved!"
 end
 
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort, nationality, age, hobbies = line.chomp.split(",")
+    @students << { name: name, cohort: cohort.to_sym, age: age, nationality: nationality, hobbies: hobbies }
+  end
+  file.close
+  puts "Students loaded successfully."
+end
+
 def process_action(action)
   case action
   when "1"
@@ -143,6 +156,8 @@ def process_action(action)
     search_students
   when "4"
     save_students
+  when "5"
+    load_students
   end
 end
 
