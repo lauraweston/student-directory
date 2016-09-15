@@ -48,6 +48,10 @@ def get_current_month
   Time.now.strftime("%B")
 end
 
+def append_student_to_list(name, cohort, nationality, age, hobbies)
+  @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
+end
+
 def input_students
   puts "To return to the menu, just hit return twice\n"
   name = get_user_input("Please enter the name of a student").capitalize
@@ -61,7 +65,7 @@ def input_students
     age = get_user_input("Age", "Unknown")
     hobbies = get_user_input("Hobbies", "Unknown")
 
-    @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
+    append_student_to_list(name, cohort, nationality, age, hobbies)
     puts "#{pluralize(@students.count, "student")} enrolled"
     name = get_user_input("Please enter the name of a student").capitalize
   end
@@ -147,12 +151,14 @@ def save_students
 end
 
 def load_students(filename="students.csv")
+  puts "Loading..."
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, nationality, age, hobbies = line.chomp.split(",")
-    @students << { name: name, cohort: cohort.to_sym, age: age, nationality: nationality, hobbies: hobbies }
+    append_student_to_list(name, cohort, nationality, age, hobbies)
   end
   file.close
+  show_students(@students)
 end
 
 def process_action(action)
