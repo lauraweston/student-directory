@@ -6,7 +6,7 @@ def interactive_menu
   until action == "9"
     print_menu
     action = gets.strip
-    process(action)
+    process_action(action)
   end
   puts "Goodbye!"
 end
@@ -119,7 +119,7 @@ def search_students
   end
 end
 
-def process(action)
+def process_action(action)
   case action
   when "1"
     input_students
