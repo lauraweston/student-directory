@@ -15,7 +15,7 @@ def interactive_menu
       if !student_list.empty?
           search(student_list)
       else
-          puts "We have no students"
+          puts "We have no current students"
       end
     end
   end
@@ -23,12 +23,27 @@ def interactive_menu
 end
 
 def print_menu
-  print "What would you like to do? "
+  print "\nWhat would you like to do? "
   puts "Enter a number to make your selection."
   puts "1. Input students"
   puts "2. Show students"
   puts "3. Search for students"
   puts "9. Exit"
+end
+
+def pluralize(num, word)
+  num == 1 ? word : word + "s"
+end
+
+def get_user_input(prompt, default="")
+  print prompt + ": "
+  input = gets.strip
+  return default if input.empty?
+  input
+end
+
+def get_current_month
+  Time.now.strftime("%B")
 end
 
 def input_students
@@ -54,39 +69,19 @@ def input_students
   students
 end
 
-def get_user_input(prompt, default="")
-  print prompt + ": "
-  input = gets.strip
-  return default if input.empty?
-  input
+def print_header
+  puts "Students of Villains Academy\n".upcase.center(100)
+  puts "     Name".ljust(25) + "Cohort".ljust(20) + "Nationality".ljust(20) + "Age".ljust(10) + "Hobbies".ljust(25)
+  puts ("-" * 100)
 end
 
-def get_current_month
-  Time.now.strftime("%B")
+def select_names_less_than_12(students)
+  students.select { |student| student[:name].length < 12 }
 end
 
-def show_students(students)
-  if !students.empty?
-    print_header
-    print_students(students)
-    print_footer(students)
-  else
-    puts "We have no students"
-  end
-end
-
-def search(students)
-  puts "To search for students, enter the first letter or first few letters of the name and press Enter."
-  search_term = gets.strip.downcase
-  filtered_student_list = students.select do |student|
-    student[:name].downcase.start_with?(search_term)
-  end
-  if filtered_student_list.empty?
-    puts "No matching students found"
-  else
-    print_students(filtered_student_list)
-    puts ("-" * 100)
-    puts "#{filtered_student_list.count} #{pluralize(filtered_student_list.count, "student")} found"
+def sort_by_cohort(students)
+  students.sort do |a, b|
+    Date::MONTHNAMES.index(a[:cohort].to_s.capitalize) <=> Date::MONTHNAMES.index(b[:cohort].to_s.capitalize)
   end
 end
 
@@ -107,30 +102,35 @@ def print_students(students)
   end
 end
 
-def select_names_less_than_12(students)
-  students.select { |student| student[:name].length < 12 }
+def print_footer(students, message)
+  puts ("-" * 100)
+  number = students.count
+  footer = message.nil? ? "Altogether, we have #{number} great #{pluralize(number, "student")}" : message
+  puts footer
 end
 
-def sort_by_cohort(students)
-  students.sort do |a, b|
-    Date::MONTHNAMES.index(a[:cohort].to_s.capitalize) <=> Date::MONTHNAMES.index(b[:cohort].to_s.capitalize)
+def show_students(students, message=nil)
+  if !students.empty?
+    print_header
+    print_students(students)
+    print_footer(students, message)
+  else
+    puts "We have no current students"
   end
 end
 
-def pluralize(num, word)
-  num == 1 ? word : word + "s"
-end
-
-def print_header
-  puts "Students of Villains Academy\n".upcase.center(100)
-  puts "     Name".ljust(25) + "Cohort".ljust(20) + "Nationality".ljust(20) + "Age".ljust(10) + "Hobbies".ljust(25)
-  puts ("-" * 100)
-end
-
-def print_footer(names)
-  puts ("-" * 100)
-  number = names.count
-  puts "Altogether, we have #{number} great #{pluralize(number, "student")}"
+def search(students)
+  puts "To search for students, enter the first letter or first few letters of the name and press Enter."
+  search_term = gets.strip.downcase
+  filtered_student_list = students.select do |student|
+    student[:name].downcase.start_with?(search_term)
+  end
+  if filtered_student_list.empty?
+    puts "No matching students found"
+  else
+    message = "#{filtered_student_list.count} #{pluralize(filtered_student_list.count, "student")} found"
+    show_students(filtered_student_list, message)
+  end
 end
 
 interactive_menu
