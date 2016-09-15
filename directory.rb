@@ -1,7 +1,17 @@
 require "date"
 @students = []
 
-
+def try_load_students
+  filename = ARGV.first #first argument from the command line
+  return if filename.nil? # get out of the method if load file not given
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{pluralize(@students.count, "student")} from #{filename}."
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
 
 def interactive_menu
   action = ""
@@ -136,8 +146,8 @@ def save_students
   puts "#{pluralize(@students.count, "student")} saved!"
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename="students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, nationality, age, hobbies = line.chomp.split(",")
     @students << { name: name, cohort: cohort.to_sym, age: age, nationality: nationality, hobbies: hobbies }
@@ -161,4 +171,5 @@ def process_action(action)
   end
 end
 
+try_load_students
 interactive_menu
