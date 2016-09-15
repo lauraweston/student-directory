@@ -17,7 +17,7 @@ def interactive_menu
   action = ""
   until action == "9"
     print_menu
-    action = gets.strip
+    action = STDIN.gets.strip
     process_action(action)
   end
   puts "Goodbye!"
@@ -40,7 +40,7 @@ end
 
 def get_user_input(prompt, default="")
   print prompt + ": "
-  input = gets.strip
+  input = STDIN.gets.strip
   input.empty? ? default : input
 end
 
@@ -121,7 +121,7 @@ def search_students
     puts "We have no current students"
   else
     puts "To search for students, enter the first letter or first few letters of the name and press Enter."
-    search_term = gets.strip.downcase
+    search_term = STDIN.gets.strip.downcase
     filtered_students = @students.select { |student| student[:name].downcase.start_with?(search_term) }
     if filtered_students.empty?
       puts "No students found matching '#{search_term}'."
@@ -153,7 +153,6 @@ def load_students(filename="students.csv")
     @students << { name: name, cohort: cohort.to_sym, age: age, nationality: nationality, hobbies: hobbies }
   end
   file.close
-  puts "Students loaded successfully."
 end
 
 def process_action(action)
