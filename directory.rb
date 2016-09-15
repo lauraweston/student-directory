@@ -1,19 +1,12 @@
 require "date"
-
 @students = []
+
 def interactive_menu
   action = ""
   until action == "9"
     print_menu
-    action = gets.strip.downcase
-    case action
-    when "1"
-      input_students
-    when "2"
-      show_students(@students)
-    when "3"
-      search_students
-    end
+    action = gets.strip
+    process(action)
   end
   puts "Goodbye!"
 end
@@ -123,6 +116,17 @@ def search_students
       message = "#{filtered_students.count} #{pluralize(filtered_students.count, "student")} found"
       show_students(filtered_students, message)
     end
+  end
+end
+
+def process(action)
+  case action
+  when "1"
+    input_students
+  when "2"
+    show_students(@students)
+  when "3"
+    search_students
   end
 end
 
