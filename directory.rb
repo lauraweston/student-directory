@@ -17,6 +17,7 @@ def print_menu
   puts "1. Input students"
   puts "2. Show students"
   puts "3. Search for students"
+  puts "4. Save students to students.csv"
   puts "9. Exit"
 end
 
@@ -119,6 +120,20 @@ def search_students
   end
 end
 
+def save_students
+  # open the file for writing
+  file = File.open("students.csv", "w")
+  # iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:nationality],
+                    student[:age], student[:hobbies]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+  puts "#{@students.count} #{pluralize(@students.count, "student")} saved!"
+end
+
 def process_action(action)
   case action
   when "1"
@@ -127,6 +142,8 @@ def process_action(action)
     show_students(@students)
   when "3"
     search_students
+  when "4"
+    save_students
   end
 end
 
