@@ -120,7 +120,7 @@ def search(students)
     search_term = gets.strip.downcase
     filtered_students = students.select { |student| student[:name].downcase.start_with?(search_term) }
     if filtered_students.empty?
-      puts "No matching students found"
+      puts "No students found matching '#{search_term}'."
     else
       message = "#{filtered_students.count} #{pluralize(filtered_students.count, "student")} found"
       show_students(filtered_students, message)
