@@ -22,7 +22,7 @@ def print_menu
 end
 
 def pluralize(num, word)
-  num == 1 ? word : word + "s"
+  num == 1 ? "#{num} #{word}" : "#{num} #{word}s"
 end
 
 def get_user_input(prompt, default="")
@@ -49,7 +49,7 @@ def input_students
     hobbies = get_user_input("Hobbies", "Unknown")
 
     @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
-    puts "#{@students.count} new #{pluralize(@students.count, "student")} enrolled"
+    puts "#{pluralize(@students.count, "student")} enrolled"
     name = get_user_input("Please enter the name of a student").capitalize
   end
 end
@@ -89,8 +89,7 @@ end
 
 def print_footer(students, message)
   puts ("-" * 100)
-  number = students.count
-  footer = message.nil? ? "Altogether, we have #{number} great #{pluralize(number, "student")}" : message
+  footer = message.nil? ? "Altogether, we have #{pluralize(students.count, "student")}" : message
   puts footer
 end
 
@@ -114,7 +113,7 @@ def search_students
     if filtered_students.empty?
       puts "No students found matching '#{search_term}'."
     else
-      message = "#{filtered_students.count} #{pluralize(filtered_students.count, "student")} found"
+      message = "#{pluralize(filtered_students.count, "student")} found"
       show_students(filtered_students, message)
     end
   end
@@ -131,7 +130,7 @@ def save_students
     file.puts csv_line
   end
   file.close
-  puts "#{@students.count} #{pluralize(@students.count, "student")} saved!"
+  puts "#{pluralize(@students.count, "student")} saved!"
 end
 
 def process_action(action)
