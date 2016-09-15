@@ -1,18 +1,18 @@
 require "date"
 
+@students = []
 def interactive_menu
   action = ""
-  student_list = []
   until action == "9"
     print_menu
     action = gets.strip.downcase
     case action
     when "1"
-      student_list += input_students
+      input_students
     when "2"
-      show_students(student_list)
+      show_students(@students)
     when "3"
-      search(student_list)
+      search_students
     end
   end
   puts "Goodbye!"
@@ -43,7 +43,6 @@ end
 
 def input_students
   puts "To return to the menu, just hit return twice\n"
-  students = []
   name = get_user_input("Please enter the name of a student").capitalize
   while !name.empty?
     cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
@@ -55,11 +54,10 @@ def input_students
     age = get_user_input("Age", "Unknown")
     hobbies = get_user_input("Hobbies", "Unknown")
 
-    students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
-    puts "#{students.count} new #{pluralize(students.count, "student")} enrolled"
+    @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
+    puts "#{@students.count} new #{pluralize(@students.count, "student")} enrolled"
     name = get_user_input("Please enter the name of a student").capitalize
   end
-  students
 end
 
 def print_header
@@ -112,13 +110,13 @@ def show_students(students, message=nil)
   end
 end
 
-def search(students)
-  if students.empty?
+def search_students
+  if @students.empty?
     puts "We have no current students"
   else
     puts "To search for students, enter the first letter or first few letters of the name and press Enter."
     search_term = gets.strip.downcase
-    filtered_students = students.select { |student| student[:name].downcase.start_with?(search_term) }
+    filtered_students = @students.select { |student| student[:name].downcase.start_with?(search_term) }
     if filtered_students.empty?
       puts "No students found matching '#{search_term}'."
     else
