@@ -8,14 +8,9 @@ def interactive_menu
     action = gets.strip.downcase
     case action
     when "1"
-        student_list += input_students
+      student_list += input_students
     when "2"
-      if !student_list.empty?
-          print_students(student_list)
-          print_footer(student_list)
-      else
-          puts "We have no students"
-      end
+      show_students(student_list)
     when "3"
       if !student_list.empty?
           search(student_list)
@@ -28,8 +23,8 @@ def interactive_menu
 end
 
 def print_menu
-  puts "What would you like to do?"
-  puts "Enter a number to make your selection"
+  print "What would you like to do? "
+  puts "Enter a number to make your selection."
   puts "1. Input students"
   puts "2. Show students"
   puts "3. Search for students"
@@ -70,6 +65,16 @@ def get_current_month
   Time.now.strftime("%B")
 end
 
+def show_students(students)
+  if !students.empty?
+    print_header
+    print_students(students)
+    print_footer(students)
+  else
+    puts "We have no students"
+  end
+end
+
 def search(students)
   puts "To search for students, enter the first letter or first few letters of the name and press Enter."
   search_term = gets.strip.downcase
@@ -88,7 +93,6 @@ end
 def print_students(students)
   names_less_than_12 = select_names_less_than_12(students)
   sorted_by_cohort = sort_by_cohort(names_less_than_12)
-  print_header
   i = 0
   while i < sorted_by_cohort.length
     student = sorted_by_cohort[i]
@@ -108,9 +112,9 @@ def select_names_less_than_12(students)
 end
 
 def sort_by_cohort(students)
-    students.sort do |a, b|
-      Date::MONTHNAMES.index(a[:cohort].to_s.capitalize) <=> Date::MONTHNAMES.index(b[:cohort].to_s.capitalize)
-    end
+  students.sort do |a, b|
+    Date::MONTHNAMES.index(a[:cohort].to_s.capitalize) <=> Date::MONTHNAMES.index(b[:cohort].to_s.capitalize)
+  end
 end
 
 def pluralize(num, word)
