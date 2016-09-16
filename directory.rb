@@ -53,7 +53,7 @@ def input_students
     age = get_user_input("Age", "Unknown")
     hobbies = get_user_input("Hobbies", "Unknown")
     append_student_to_list(name, cohort, nationality, age, hobbies)
-    puts "New student enrolled"
+    puts "#{name} has been registered."
     name = get_user_input("Please enter the name of a student").capitalize
   end
 end
