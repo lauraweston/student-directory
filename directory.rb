@@ -31,24 +31,27 @@ def append_student_to_list(name, cohort, nationality, age, hobbies)
   @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
 end
 
-def get_valid_cohort
-  cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
-  cohort = nil
-  until cohorts.include?(cohort)
-    cohort = get_user_input("Cohort", get_current_month).downcase.to_sym
+def check_cohort_valid(cohort)
+  valid_cohorts = Date::MONTHNAMES
+  valid_cohorts.include?(cohort.capitalize)
+end
+
+def get_cohort
+  cohort = ""
+  until check_cohort_valid(cohort)
+    cohort = get_user_input("Cohort", get_current_month).downcase
   end
-  cohort
+  cohort.to_sym
 end
 
 def input_students
   puts "To return to the menu, just hit return twice\n"
   name = get_user_input("Please enter the name of a student").capitalize
   while !name.empty?
-    cohort = get_valid_cohort
+    cohort = get_cohort
     nationality = get_user_input("Nationality", "Unknown").capitalize
     age = get_user_input("Age", "Unknown")
     hobbies = get_user_input("Hobbies", "Unknown")
-
     append_student_to_list(name, cohort, nationality, age, hobbies)
     puts "New student enrolled"
     name = get_user_input("Please enter the name of a student").capitalize
