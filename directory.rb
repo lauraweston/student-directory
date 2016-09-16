@@ -135,6 +135,7 @@ end
 
 def load_students(filename="students.csv")
   puts "Loading..."
+  @students = []
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, nationality, age, hobbies = line.chomp.split(",")
