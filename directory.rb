@@ -77,17 +77,14 @@ end
 def print_students(students)
   names_less_than_12 = select_names_less_than_12(students)
   sorted_by_cohort = sort_by_cohort(names_less_than_12)
-  i = 0
-  while i < sorted_by_cohort.length
-    student = sorted_by_cohort[i]
-    number = (i + 1).to_s.rjust(4)
-    name = student[:name].ljust(20)
-    cohort = student[:cohort].to_s.capitalize.ljust(20)
-    nationality = student[:nationality].ljust(20)
-    age = student[:age].to_s.ljust(10)
-    hobbies = student[:hobbies].ljust(25)
-    puts number + " " + name + cohort + nationality + age + hobbies
-    i += 1
+  sorted_by_cohort.each_with_index do | student, index |
+    number = (index + 1).to_s
+    name = student[:name]
+    cohort = student[:cohort].to_s.capitalize
+    nationality = student[:nationality]
+    age = student[:age].to_s
+    hobbies = student[:hobbies]
+    puts number.rjust(4) + " " + name.ljust(20) + cohort.ljust(20) + nationality.ljust(20) + age.ljust(20) + hobbies.ljust(20)
   end
 end
 
@@ -128,9 +125,7 @@ def search_students
 end
 
 def save_students
-  # open the file for writing
   file = File.open("students.csv", "w")
-  # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:nationality],
                     student[:age], student[:hobbies]]
