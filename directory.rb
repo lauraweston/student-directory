@@ -125,7 +125,13 @@ def search_students
 end
 
 def save_students
-  file = File.open("students.csv", "w")
+  filename = ""
+  until !filename.empty?
+    puts "Please enter a name for the list:"
+    filename = gets.strip
+  end
+  filename += ".csv"
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:nationality],
                     student[:age], student[:hobbies]]
@@ -133,7 +139,7 @@ def save_students
     file.puts csv_line
   end
   file.close
-  puts "#{pluralize(@students.count, "student")} saved!"
+  puts "#{pluralize(@students.count, "student")} saved to #{filename}"
 end
 
 def load_students(filename="students.csv")
@@ -162,8 +168,8 @@ end
   1 => { :description => "Input students", :action => method(:input_students)},
   2 => { :description => "Show students", :action => method(:show_all_students)},
   3 => { :description => "Search for students", :action => method(:search_students)},
-  4 => { :description => "Save student list to students.csv", :action => method(:save_students)},
-  5 => { :description => "Load student list from students.csv", :action => method(:load_students)},
+  4 => { :description => "Save current student list", :action => method(:save_students)},
+  5 => { :description => "Load a student list from students.csv", :action => method(:load_students)},
   9 => { :description => "Exit", :action => method(:exit_directory)}
 }
 
