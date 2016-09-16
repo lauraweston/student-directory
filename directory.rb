@@ -13,27 +13,6 @@ def try_load_students
   end
 end
 
-def interactive_menu
-  action = ""
-  until action == "9"
-    print_menu
-    action = STDIN.gets.strip
-    process_action(action)
-  end
-  puts "Goodbye!"
-end
-
-def print_menu
-  print "\nWhat would you like to do? "
-  puts "Enter a number to make your selection."
-  puts "1. Input students"
-  puts "2. Show students"
-  puts "3. Search for students"
-  puts "4. Save student list to students.csv"
-  puts "5. Load student list from students.csv"
-  puts "9. Exit"
-end
-
 def pluralize(num, word)
   num == 1 ? "#{num} #{word}" : "#{num} #{word}s"
 end
@@ -66,7 +45,7 @@ def input_students
     hobbies = get_user_input("Hobbies", "Unknown")
 
     append_student_to_list(name, cohort, nationality, age, hobbies)
-    puts "#{pluralize(@students.count, "student")} enrolled"
+    puts "New student enrolled"
     name = get_user_input("Please enter the name of a student").capitalize
   end
 end
@@ -120,6 +99,10 @@ def show_students(students, message=nil)
   end
 end
 
+def show_all_students
+  show_students(@students)
+end
+
 def search_students
   if @students.empty?
     puts "We have no current students"
@@ -162,19 +145,35 @@ def load_students(filename="students.csv")
   puts "Loaded #{pluralize(@students.count, "student")} from #{filename}."
 end
 
-def process_action(action)
-  case action
-  when "1"
-    input_students
-  when "2"
-    show_students(@students)
-  when "3"
-    search_students
-  when "4"
-    save_students
-  when "5"
-    load_students
+def exit_directory
+  puts "Goodbye!"
+  exit
+end
+
+def process_selection(selection)
+  @menu[selection.to_i][:action].call
+end
+
+@menu = {
+  1 => { :description => "Input students", :action => method(:input_students)},
+  2 => { :description => "Show students", :action => method(:show_all_students)},
+  3 => { :description => "Search for students", :action => method(:search_students)},
+  4 => { :description => "Save student list to students.csv", :action => method(:save_students)},
+  5 => { :description => "Load student list from students.csv", :action => method(:load_students)},
+  9 => { :description => "Exit", :action => method(:exit_directory)}
+}
+
+def interactive_menu
+  loop do
+    print_menu
+    selection = STDIN.gets.strip
+    process_selection(selection)
   end
+end
+
+def print_menu
+  puts "\nWhat would you like to do? Enter a number to make your selection."
+  @menu.each { |number, item| puts "#{number} #{item[:description]}" }
 end
 
 try_load_students
