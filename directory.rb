@@ -3,10 +3,10 @@ require "date"
 
 def try_load_students
   filename = ARGV.first #first argument from the command line
-  return if filename.nil? # get out of the method if load file not given
-  if File.exists?(filename)
+  if filename.nil?
+    load_students
+  elsif File.exist?(filename)
     load_students(filename)
-    puts "Loaded #{pluralize(@students.count, "student")} from #{filename}."
   else
     puts "Sorry, #{filename} doesn't exist."
     exit
@@ -159,6 +159,7 @@ def load_students(filename="students.csv")
   end
   file.close
   show_students(@students)
+  puts "Loaded #{pluralize(@students.count, "student")} from #{filename}."
 end
 
 def process_action(action)
