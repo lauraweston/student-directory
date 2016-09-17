@@ -1,16 +1,10 @@
 require "date"
 @students = []
 
-def try_load_students
+def load_students_from_command_line
   filename = ARGV.first #first argument from the command line
-  if filename.nil?
-    load_students
-  elsif File.exist?(filename)
-    load_students(filename)
-  else
-    puts "Sorry, #{filename} doesn't exist."
-    exit
-  end
+  filename = "students.csv" if filename.nil?
+  load_students(filename)
 end
 
 def pluralize(num, word)
@@ -28,7 +22,9 @@ def get_current_month
 end
 
 def append_student_to_list(name, cohort, nationality, age, hobbies)
-  @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
+  if !name.nil? && !name.empty?
+    @students << { name: name, cohort: cohort, age: age, nationality: nationality, hobbies: hobbies }
+  end
 end
 
 def check_cohort_valid(cohort)
@@ -142,8 +138,19 @@ def save_students
   puts "#{pluralize(@students.count, "student")} saved to #{filename}"
 end
 
-def load_students(filename="students.csv")
-  puts "Loading..."
+def load_students_from_user_input
+  puts "Which file do you want to load?"
+  filename = STDIN.gets.strip
+  load_students(filename)
+end
+
+def load_students(filename)
+  if !File.exist?(filename)
+    puts "#{filename} not found. Load student list skipped."
+    return
+  end
+
+  puts "Loading from #{filename}"
   @students = []
   file = File.open(filename, "r")
   file.readlines.each do |line|
@@ -169,7 +176,7 @@ end
   2 => { :description => "Show students", :action => method(:show_all_students)},
   3 => { :description => "Search for students", :action => method(:search_students)},
   4 => { :description => "Save current student list", :action => method(:save_students)},
-  5 => { :description => "Load a student list from students.csv", :action => method(:load_students)},
+  5 => { :description => "Load a student list", :action => method(:load_students_from_user_input)},
   9 => { :description => "Exit", :action => method(:exit_directory)}
 }
 
@@ -186,5 +193,5 @@ def print_menu
   @menu.each { |number, item| puts "#{number} #{item[:description]}" }
 end
 
-try_load_students
+load_students_from_command_line
 interactive_menu
