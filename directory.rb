@@ -134,7 +134,7 @@ def save_students
     puts "Please enter a name for the list:"
     filename = gets.strip
   end
-  filename += ".csv"
+  filename += ".csv" if !filename.end_with?(".csv")
   CSV.open(filename, "w") do |csv|
     @students.each do |student|
       student_data = [student[:name], student[:cohort], student[:nationality],
@@ -148,6 +148,7 @@ end
 def load_students_from_user_input
   puts "Which file do you want to load?"
   filename = STDIN.gets.strip
+  filename += ".csv" if !filename.end_with?(".csv")
   load_students(filename)
 end
 
