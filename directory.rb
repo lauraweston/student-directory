@@ -36,22 +36,29 @@ end
 def get_cohort
   cohort = ""
   until check_cohort_valid(cohort)
-    cohort = get_user_input("Cohort", get_current_month).downcase
+    cohort = get_user_input("Enter student's cohort (must be a month, e.g. May, or hit return to use current month)", get_current_month).downcase
   end
   cohort.to_sym
 end
 
+def get_age
+  age = ""
+  until age.to_i > 0 || age == "Unknown"
+    age = get_user_input("Enter student's age (enter a number greater than 0, e.g. 30, or hit return to skip)", "Unknown")
+  end
+  age
+end
+
 def input_students
-  puts "To return to the menu, just hit return twice\n"
-  name = get_user_input("Please enter the name of a student").capitalize
+  name = get_user_input("Enter student's name (or hit return to go back to the menu)").capitalize
   while !name.empty?
     cohort = get_cohort
-    nationality = get_user_input("Nationality", "Unknown").capitalize
-    age = get_user_input("Age", "Unknown")
-    hobbies = get_user_input("Hobbies", "Unknown")
+    nationality = get_user_input("Enter student's nationality (or hit return to skip)", "Unknown").capitalize
+    age = get_age
+    hobbies = get_user_input("Enter student's hobbies (or hit return to skip)", "Unknown")
     append_student_to_list(name, cohort, nationality, age, hobbies)
     puts "#{name} has been registered."
-    name = get_user_input("Please enter the name of a student").capitalize
+    name = get_user_input("Enter student's name").capitalize
   end
 end
 
@@ -79,9 +86,9 @@ def print_students(students)
     name = student[:name]
     cohort = student[:cohort].to_s.capitalize
     nationality = student[:nationality]
-    age = student[:age].to_s
-    hobbies = student[:hobbies]
-    puts number.rjust(4) + " " + name.ljust(20) + cohort.ljust(20) + nationality.ljust(20) + age.ljust(20) + hobbies.ljust(20)
+    age = student[:age]
+    hobbies = student[:hobbies].capitalize
+    puts number.rjust(4) + " " + name.ljust(20) + cohort.ljust(20) + nationality.ljust(20) + age.ljust(10) + hobbies.ljust(25)
   end
 end
 
@@ -191,9 +198,11 @@ def interactive_menu
 end
 
 def print_menu
-  puts "\nWhat would you like to do? Enter a number to make your selection."
+  puts "\nWhat would you like to do?"
+  puts "Enter a number to make your selection."
   @menu.each { |number, item| puts "#{number} #{item[:description]}" }
 end
 
+puts
 load_students_from_command_line
 interactive_menu
