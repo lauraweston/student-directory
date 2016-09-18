@@ -127,14 +127,14 @@ def save_students
     filename = gets.strip
   end
   filename += ".csv"
-  file = File.open(filename, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:nationality],
-                    student[:age], student[:hobbies]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort], student[:nationality],
+                      student[:age], student[:hobbies]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "#{pluralize(@students.count, "student")} saved to #{filename}"
 end
 
@@ -152,12 +152,12 @@ def load_students(filename)
 
   puts "Loading from #{filename}"
   @students = []
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort, nationality, age, hobbies = line.chomp.split(",")
-    append_student_to_list(name, cohort, nationality, age, hobbies)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort, nationality, age, hobbies = line.chomp.split(",")
+      append_student_to_list(name, cohort, nationality, age, hobbies)
+    end
   end
-  file.close
   show_students(@students)
   puts "Loaded #{pluralize(@students.count, "student")} from #{filename}."
 end
