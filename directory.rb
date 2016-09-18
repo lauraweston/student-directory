@@ -168,7 +168,7 @@ def exit_directory
 end
 
 def process_selection(selection)
-  @menu[selection.to_i][:action].call
+  @menu[selection][:action].call
 end
 
 @menu = {
@@ -177,13 +177,17 @@ end
   3 => { :description => "Search for students", :action => method(:search_students)},
   4 => { :description => "Save current student list", :action => method(:save_students)},
   5 => { :description => "Load a student list", :action => method(:load_students_from_user_input)},
-  9 => { :description => "Exit", :action => method(:exit_directory)}
+  6 => { :description => "Exit", :action => method(:exit_directory)}
 }
 
 def interactive_menu
   loop do
     print_menu
-    selection = STDIN.gets.strip
+    selection = STDIN.gets.to_i
+    while @menu[selection].nil?
+      puts "Please enter a valid number"
+      selection = STDIN.gets.to_i
+    end
     process_selection(selection)
   end
 end
