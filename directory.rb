@@ -170,12 +170,12 @@ def process_selection(selection)
 end
 
 @menu = {
-  1 => { :description => "Input students", :action => method(:input_students)},
-  2 => { :description => "Show students", :action => method(:show_all_students)},
-  3 => { :description => "Search for students", :action => method(:search_students)},
-  4 => { :description => "Save current student list", :action => method(:save_students)},
-  5 => { :description => "Load a student list", :action => method(:load_students_from_user_input)},
-  6 => { :description => "Exit", :action => method(:exit_directory)}
+  1 => { :description => "Input students", :action => method(:input_students) },
+  2 => { :description => "Show students", :action => method(:show_all_students) },
+  3 => { :description => "Search for students", :action => method(:search_students) },
+  4 => { :description => "Save current student list", :action => method(:save_students) },
+  5 => { :description => "Load a student list", :action => method(:load_students_from_user_input) },
+  6 => { :description => "Exit", :action => method(:exit_directory) }
 }
 
 def interactive_menu
