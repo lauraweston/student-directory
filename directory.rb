@@ -1,4 +1,5 @@
 require "date"
+require "csv"
 @students = []
 
 def load_students_from_command_line
@@ -127,12 +128,11 @@ def save_students
     filename = gets.strip
   end
   filename += ".csv"
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |csv|
     @students.each do |student|
       student_data = [student[:name], student[:cohort], student[:nationality],
                       student[:age], student[:hobbies]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      csv << student_data
     end
   end
   puts "#{pluralize(@students.count, "student")} saved to #{filename}"
@@ -152,11 +152,9 @@ def load_students(filename)
 
   puts "Loading from #{filename}"
   @students = []
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, cohort, nationality, age, hobbies = line.chomp.split(",")
+  CSV.foreach(filename, "r") do |row|
+      name, cohort, nationality, age, hobbies = row
       append_student_to_list(name, cohort, nationality, age, hobbies)
-    end
   end
   show_students(@students)
   puts "Loaded #{pluralize(@students.count, "student")} from #{filename}."
