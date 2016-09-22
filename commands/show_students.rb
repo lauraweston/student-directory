@@ -31,10 +31,6 @@ class ShowStudentsCommand
   #  @students.select { |student| student[:name].length < 12 }
   #end
 
-  def truncate_names_greater_than_12(name)
-    name.length > 12 ? "#{name[0, 12]}..." : name
-  end
-
   def sort_by_cohort
     @students.sort do |a, b|
       Date::MONTHNAMES.index(a[:cohort].to_s.capitalize) <=> Date::MONTHNAMES.index(b[:cohort].to_s.capitalize)
@@ -45,7 +41,7 @@ class ShowStudentsCommand
     sorted_by_cohort = sort_by_cohort
     sorted_by_cohort.each_with_index do | student, index |
       number = (index + 1).to_s
-      name = truncate_names_greater_than_12(student[:name])
+      name = truncate_if_greater_than_12(student[:name])
       cohort = student[:cohort].to_s.capitalize
       nationality = student[:nationality]
       age = student[:age]
